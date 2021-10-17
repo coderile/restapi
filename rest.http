@@ -1,0 +1,17 @@
+### Get All products
+GET http://localhost:3000/products
+
+### Create a product
+POST http://localhost:3000/products
+
+### Get product by id
+GET http://localhost:3000/products/id
+
+### Updating product by id
+PATCH http://localhost:3000/products/id
+
+### delete te product by id
+DELETE http://localhost:3000/products/id
+
+### error 404
+GET http://localhost:3000
