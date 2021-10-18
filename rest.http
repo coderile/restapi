@@ -3,15 +3,42 @@ GET http://localhost:3000/products
 
 ### Create a product
 POST http://localhost:3000/products
+Content-Type: application/json
+
+{
+    "name":"Apple",
+    "price":699
+}
 
 ### Get product by id
-GET http://localhost:3000/products/id
+GET http://localhost:3000/products/616dcf6f985379b9af4fcc8c
 
-### Updating product by id
-PATCH http://localhost:3000/products/id
+### Updating product by ids
+PATCH http://localhost:3000/products/616dd5e4413fda3541b48dcb
+Content-Type: application/json
+
+{
+    "name":"Apple new"
+}
+
 
 ### delete te product by id
-DELETE http://localhost:3000/products/id
+DELETE http://localhost:3000/products/616dd5e7413fda3541b48dd3
 
 ### error 404
-GET http://localhost:3000
+GET http://localhost:3000/test
+
+###
+POST http://localhost:3000/test
+Content-Type: application/json
+
+{
+    "name":"imacpro",
+    "price":289900
+}
+
+###
+POST http://localhost:3000/test
+Content-Type: application/x-www-form-urlencoded
+
+name=imac&price=39384949

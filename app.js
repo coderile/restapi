@@ -3,7 +3,10 @@ const ProductRoute = require('./routes/product.route')
 const mongoose = require('mongoose')
 const app = express()
 
-mongoose.connect("mongodb+srv://cluster0.2oh5w.mongodb.net/myFirstDatabase?retryWrites=true&w=majority/", {
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+
+mongoose.connect("mongodb+srv://cluster0.2oh5w.mongodb.net/", {
     dbName: "product_db",
     user: "admin",
     pass: "India_123"
@@ -12,6 +15,14 @@ mongoose.connect("mongodb+srv://cluster0.2oh5w.mongodb.net/myFirstDatabase?retry
         console.log('DB is connected')
     })
 
+    // app.all('/:id',(req,res,next)=>{
+    //     // ?name=amit&age=30
+    //     // res.send(req.query)
+    //     res.send(req.params)
+    // })
+app.all("/test",(req,res,next)=>{
+    res.send(req.body)
+})
 app.use('/products', ProductRoute)
 
 // app.use((req,res,next)=>{

@@ -1,24 +1,72 @@
 const express = require('express')
 const router = express.Router()
+const Product= require('../models/product.model')
 
-router.get('/', (req,res,next)=>{
-    next(new Error("Listing is not done"))
+// Testing query,param and body
+
+
+router.get('/', async(req,res,next)=>{
+    //next(new Error("Listing is not done"))
     //res.send('all products')
+    try{
+        const results = await Product.find({},{__v:0})
+        res.send(results)
+    }catch(error){
+        console.log(error.message)
+    }
+
 })
 
-router.post('/',(req,res,next)=>{
-    res.send('Products created')
+router.post('/',async(req,res,next)=>{
+
+    try{
+        const product = new Product(req.body)
+        const result =await product.save()
+        res.send(result)
+
+    }catch(errors){
+        console.log(error)
+    }
+   
+    
 })
 
-router.get('/:id', (req,res,next)=>{
-    res.send('get single products')
+router.get('/:id', async(req,res,next)=>{
+
+    try{
+        const id= req.params.id
+        const results = await Product.findById(id)
+        //findOne({_id:id})
+        res.send(results)
+
+    }catch(error){
+        console.log(error)
+    }
+   
 })
 
-router.patch('/:id', (req,res,next)=>{
-    res.send('updating single products')
+router.patch('/:id',async (req,res,next)=>{
+    try{
+        const id= req.params.id
+        const updates = req.body
+        const options= {new:true}
+        const result = await Product.findByIdAndUpdate(id,updates,options)
+        res.send(result)
+
+    }catch(error){
+        console.log(error)
+    }
 })
 
-router.delete('/:id', (req,res,next)=>{
-    res.send('deleting single products')
+router.delete('/:id', async(req,res,next)=>{
+    try{
+        const id= req.params.id
+        const results=await Product.findByIdAndRemove(id)
+        res.send(results)
+
+    }catch(error){
+        console.log(error.message)
+    }
+    
 })
 module.exports=router
