@@ -1,72 +1,18 @@
 const express = require('express')
 const router = express.Router()
-const Product= require('../models/product.model')
+const Product = require('../models/product.model')
+const createError = require('http-errors')
+const mongoose = require('mongoose')
+
+const ProductController = require('../controller/products.controller')
 
 // Testing query,param and body
 
 
-router.get('/', async(req,res,next)=>{
-    //next(new Error("Listing is not done"))
-    //res.send('all products')
-    try{
-        const results = await Product.find({},{__v:0})
-        res.send(results)
-    }catch(error){
-        console.log(error.message)
-    }
+router.get('/', ProductController.getAllProducts)
+    .post('/', ProductController.createProduct)
 
-})
-
-router.post('/',async(req,res,next)=>{
-
-    try{
-        const product = new Product(req.body)
-        const result =await product.save()
-        res.send(result)
-
-    }catch(errors){
-        console.log(error)
-    }
-   
-    
-})
-
-router.get('/:id', async(req,res,next)=>{
-
-    try{
-        const id= req.params.id
-        const results = await Product.findById(id)
-        //findOne({_id:id})
-        res.send(results)
-
-    }catch(error){
-        console.log(error)
-    }
-   
-})
-
-router.patch('/:id',async (req,res,next)=>{
-    try{
-        const id= req.params.id
-        const updates = req.body
-        const options= {new:true}
-        const result = await Product.findByIdAndUpdate(id,updates,options)
-        res.send(result)
-
-    }catch(error){
-        console.log(error)
-    }
-})
-
-router.delete('/:id', async(req,res,next)=>{
-    try{
-        const id= req.params.id
-        const results=await Product.findByIdAndRemove(id)
-        res.send(results)
-
-    }catch(error){
-        console.log(error.message)
-    }
-    
-})
-module.exports=router
+router.get('/:id', ProductController.getProductById)
+    .patch('/:id', ProductController.updateProductById)
+    .delete('/:id', ProductController.deleteProductById)
+module.exports = router

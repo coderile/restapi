@@ -2,6 +2,7 @@ const express = require('express')
 const ProductRoute = require('./routes/product.route')
 const mongoose = require('mongoose')
 const app = express()
+const createError= require('http-errors')
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
@@ -14,6 +15,7 @@ mongoose.connect("mongodb+srv://cluster0.2oh5w.mongodb.net/", {
     .then(() => {
         console.log('DB is connected')
     })
+    .catch(err=>console.log(err.message))
 
     // app.all('/:id',(req,res,next)=>{
     //     // ?name=amit&age=30
@@ -32,10 +34,15 @@ app.use('/products', ProductRoute)
 //     })
 // })
 
-app.use((req, res, next) => {
-    const err = new Error('NOT FOUND!')
-    err.status = 404
-    next(err)
+// app.use((req, res, next) => {
+//     const err = new Error('NOT FOUND!')
+//     err.status = 404
+//     next(err)
+// })
+
+app.use((req,res,next)=>{
+    next(createError(404,'NOT FOUND!'))
+
 })
 
 app.use((err, req, res, next) => {
